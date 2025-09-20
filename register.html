@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Hall Shop - Welcome</title>
+    <link rel="icon" href="logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+    <script src="firebase.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        :root {
+          --bg: #0B0B0C;
+          --glass: rgba(255,255,255,.08);
+          --gold: #D4AF37;
+          --glow: rgba(212,175,55,0.6);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg) url('wallpaper.png') center/cover fixed no-repeat;
+        }
+        .glass-container {
+            background: var(--glass); 
+            border:1px solid rgba(212,175,55,.25); 
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem; /* 24px */
+        }
+        .input-field {
+            background-color: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(212,175,55,.25);
+            color: #FFFFFF;
+            border-radius: 0.5rem; /* 8px */
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        .input-field::placeholder {
+            color: #8A8A9E;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        .btn-glow {
+            background: linear-gradient(135deg, rgba(212,175,55,.15), rgba(212,175,55,.05)); 
+            border:1px solid rgba(212,175,55,.25); 
+            box-shadow:0 0 18px -6px var(--glow);
+            color: var(--gold);
+            font-weight: 600;
+            border-radius: 0.5rem;
+            padding: 0.85rem;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-glow:hover {
+            transform: translateY(-1px); 
+            box-shadow:0 0 22px -4px var(--glow);
+        }
+    </style>
+</head>
+<body class="antialiased text-white flex items-end justify-center min-h-screen">
+
+    <main class="w-full p-4 pt-0">
+
+        <!-- Welcome Screen -->
+        <div id="welcomeContent" class="w-full max-w-md mx-auto">
+             <div class="glass-container overflow-hidden rounded-b-none">
+                 <!-- Illustration -->
+                 <div class="h-64 bg-[#0B0B0C] flex items-center justify-center p-4">
+                     <img src="loginbanner.png" alt="Event illustration" class="w-full h-full object-contain">
+                 </div>
+                 <!-- Wavy Shape Divider -->
+                 <div class="bg-[#0B0B0C]">
+                     <svg viewBox="0 0 1440 120" class="bg-transparent" style="background-color: rgba(255,255,255,.08);"><path fill="#0B0B0C" d="M1440,89.3333333 C1219.33333,89.3333333 1043.33333,40.3333333 720,40.3333333 C396.666667,40.3333333 220.666667,89.3333333 0,89.3333333 L0,120 L1440,120 L1440,89.3333333 Z"></path></svg>
+                 </div>
+                 <div class="p-8 pt-0 text-center space-y-4">
+                     <h1 class="text-2xl sm:text-3xl font-bold tracking-widest">ALL HALL</h1>
+                     <p class="text-gray-400">Discover and shop for all your favorite products, all in one place.</p>
+                     <div class="pt-4 space-y-3">
+                         <button id="goToSignIn" class="btn-glow">Sign In</button>
+                         <button id="goToRegister" class="btn-glow">Register</button>
+                     </div>
+                 </div>
+              </div>
+        </div>
+
+        <!-- Sign In Content -->
+        <div id="signInContent" class="w-full max-w-md mx-auto hidden">
+            <div class="glass-container pt-6 px-6 pb-4 sm:pt-8 sm:px-8 sm:pb-6 rounded-b-none relative">
+                 <button id="backToWelcomeFromSignIn" class="absolute top-4 left-4 p-2 rounded-full hover:bg-white/10 transition-colors">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                 </button>
+                 <div class="mb-8 text-center">
+                     <h1 class="text-2xl sm:text-3xl font-bold text-yellow-400">Welcome Back</h1>
+                     <p class="text-gray-400">Sign in to your account</p>
+                 </div>
+                 <form id="loginForm" class="space-y-6">
+                     <div>
+                         <label for="loginEmail" class="block mb-2 text-sm font-medium">Your Email</label>
+                         <input class="input-field" id="loginEmail" type="email" placeholder="Enter your email" required>
+                     </div>
+                     <div>
+                         <label for="loginPassword" class="block mb-2 text-sm font-medium">Password</label>
+                         <div class="relative">
+                            <input class="input-field pr-10" id="loginPassword" type="password" placeholder="••••••••" required>
+                            <button type="button" id="toggleLoginPassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-white">
+                                <svg id="eyeIconLogin" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg id="eyeSlashIconLogin" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.668.124 2.454.354M7.5 7.5l9 9M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                     </div>
+                     <div class="flex items-center justify-between text-sm">
+                         <div class="flex items-center gap-2">
+                             <input type="checkbox" id="remember" class="w-4 h-4 rounded accent-yellow-500">
+                             <label for="remember">Remember me</label>
+                         </div>
+                         <a href="#" class="font-medium text-yellow-400 hover:underline">Forgot password?</a>
+                     </div>
+                     <button class="btn-glow" type="submit">Sign In</button>
+                 </form>
+                 <p class="text-sm text-center text-gray-400 mt-6">
+                     I'm a new user. <a href="#" id="showSignUp" class="font-bold text-yellow-400 hover:underline">Sign Up</a>
+                 </p>
+            </div>
+        </div>
+
+        <!-- Sign Up Content -->
+        <div id="signUpContent" class="w-full max-w-md hidden mx-auto">
+            <div class="glass-container pt-6 px-6 pb-4 sm:pt-8 sm:px-8 sm:pb-6 rounded-b-none relative">
+                <button id="backToWelcomeFromSignUp" class="absolute top-4 left-4 p-2 rounded-full hover:bg-white/10 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                </button>
+                <div class="mb-8 text-center">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-yellow-400">Let's Start</h1>
+                    <p class="text-gray-400">Create an account</p>
+                </div>
+                <form id="registerForm" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input class="input-field" id="regFirst" placeholder="First name" required>
+                        <input class="input-field" id="regLast" placeholder="Last name" required>
+                    </div>
+                    <input class="input-field" id="regEmail" type="email" placeholder="Email Address" required>
+                    <div class="relative">
+                        <input class="input-field pr-10" id="regPassword" type="password" placeholder="Password (min. 6 characters)" required>
+                        <button type="button" id="toggleRegPassword" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 hover:text-white">
+                            <svg id="eyeIconReg" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg id="eyeSlashIconReg" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 1.274-4.057 5.064-7 9.542-7 .847 0 1.668.124 2.454.354M7.5 7.5l9 9M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <input class="input-field" id="regPhone" placeholder="Phone (Optional)">
+                    <div class="grid grid-cols-2 gap-4">
+                         <input class="input-field" id="regAge" type="number" placeholder="Age (Optional)">
+                        <select class="input-field" id="regGender">
+                            <option value="">Gender (optional)</option>
+                            <option>Male</option><option>Female</option><option>Other</option>
+                        </select>
+                    </div>
+                    <button class="btn-glow !mt-6" type="submit">Create Account</button>
+                </form>
+                <p class="text-sm text-center text-gray-400 mt-6">
+                    Already have an account? <a href="#" id="showSignIn" class="font-bold text-yellow-400 hover:underline">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeContent = document.getElementById('welcomeContent');
+            const signInContent = document.getElementById('signInContent');
+            const signUpContent = document.getElementById('signUpContent');
+            
+            // Buttons to navigate between views
+            const goToSignInBtn = document.getElementById('goToSignIn');
+            const goToRegisterBtn = document.getElementById('goToRegister');
+            const showSignUpLink = document.querySelectorAll('#showSignUp');
+            const showSignInLink = document.querySelectorAll('#showSignIn');
+            const backToWelcomeFromSignIn = document.getElementById('backToWelcomeFromSignIn');
+            const backToWelcomeFromSignUp = document.getElementById('backToWelcomeFromSignUp');
+
+            function showView(viewToShow) {
+                welcomeContent.classList.add('hidden');
+                signInContent.classList.add('hidden');
+                signUpContent.classList.add('hidden');
+                viewToShow.classList.remove('hidden');
+            }
+
+            // Event Listeners for navigation
+            goToSignInBtn.addEventListener('click', (e) => { e.preventDefault(); showView(signInContent); });
+            goToRegisterBtn.addEventListener('click', (e) => { e.preventDefault(); showView(signUpContent); });
+            showSignUpLink.forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showView(signUpContent); }));
+            showSignInLink.forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showView(signInContent); }));
+            backToWelcomeFromSignIn.addEventListener('click', (e) => { e.preventDefault(); showView(welcomeContent); });
+            backToWelcomeFromSignUp.addEventListener('click', (e) => { e.preventDefault(); showView(welcomeContent); });
+            
+            // Show welcome screen by default
+            showView(welcomeContent);
+
+            // --- Show Password Logic ---
+            const loginPasswordInput = document.getElementById('loginPassword');
+            const toggleLoginPasswordBtn = document.getElementById('toggleLoginPassword');
+            const eyeIconLogin = document.getElementById('eyeIconLogin');
+            const eyeSlashIconLogin = document.getElementById('eyeSlashIconLogin');
+
+            const regPasswordInput = document.getElementById('regPassword');
+            const toggleRegPasswordBtn = document.getElementById('toggleRegPassword');
+            const eyeIconReg = document.getElementById('eyeIconReg');
+            const eyeSlashIconReg = document.getElementById('eyeSlashIconReg');
+
+            function togglePasswordVisibility(input, eyeIcon, eyeSlashIcon) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eyeIcon.classList.add('hidden');
+                    eyeSlashIcon.classList.remove('hidden');
+                } else {
+                    input.type = 'password';
+                    eyeIcon.classList.remove('hidden');
+                    eyeSlashIcon.classList.add('hidden');
+                }
+            }
+
+            toggleLoginPasswordBtn.addEventListener('click', () => {
+                togglePasswordVisibility(loginPasswordInput, eyeIconLogin, eyeSlashIconLogin);
+            });
+
+            toggleRegPasswordBtn.addEventListener('click', () => {
+                togglePasswordVisibility(regPasswordInput, eyeIconReg, eyeSlashIconReg);
+            });
+
+            // Login logic (UNTOUCHED)
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value.trim();
+                const pass = document.getElementById('loginPassword').value;
+                try {
+                    await auth.signInWithEmailAndPassword(email, pass);
+                    window.location.href = 'profile.html';
+                } catch (err) {
+                    alert(err.message);
+                }
+            });
+            
+            // Register logic (UNTOUCHED)
+            document.getElementById('registerForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const first = document.getElementById('regFirst').value.trim();
+                const last = document.getElementById('regLast').value.trim();
+                const phone = document.getElementById('regPhone').value.trim();
+                const age = document.getElementById('regAge').value.trim();
+                const gender = document.getElementById('regGender').value;
+                const email = document.getElementById('regEmail').value.trim();
+                const pass = document.getElementById('regPassword').value;
+                
+                if (pass.length < 6) {
+                    alert("Password must be at least 6 characters long.");
+                    return;
+                }
+
+                try {
+                    const { user } = await auth.createUserWithEmailAndPassword(email, pass);
+                    await db.ref('users/' + user.uid).set({
+                        first, last, phone, age, gender, email
+                    });
+                    window.location.href = 'profile.html';
+                } catch (err) {
+                    alert(err.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

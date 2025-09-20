@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>All Hall Shop</title>
+<link rel="icon" href="logo.png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="main.js"></script>
+
+</head>
+<body class="text-white">
+<header class="sticky top-0 z-40 bg-black/70 backdrop-blur border-b border-yellow-500/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <img src="logo.png" class="h-10 w-auto" alt="logo"/>
+    <a href="index.html" class="font-bold text-yellow-400 tracking-wide">All Hall Shop</a>
+    <div class="flex-1"></div>
+    <div class="hidden md:block w-full max-w-md relative">
+      <input id="search" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+    <nav class="hidden md:flex items-center gap-4">
+      <a class="navlink" href="index.html" title="Home">
+        <i data-feather="home" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink" href="categories.html" title="Categories">
+        <i data-feather="grid" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink relative" href="cart.html" title="Cart">
+        <i data-feather="shopping-cart" class="w-6 h-6"></i>
+        <span id="navCartCount" class="badge"></span>
+      </a>
+      <a class="navlink relative" href="notifications.html" id="notifContainer" title="Notifications">
+        <i data-feather="bell" class="w-6 h-6"></i>
+        <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 opacity-0" id="notifDot"></span>
+      </a>
+      <a class="navlink" href="profile.html" title="Profile">
+        <i data-feather="user" class="w-6 h-6"></i>
+      </a>
+    </nav>
+    <a href="cart.html" class="md:hidden btn-glow px-3 py-2 rounded-xl">Cart</a>
+  </div>
+  <div class="md:hidden px-4 pb-3">
+    <div class="relative">
+      <input id="search-m" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+  </div>
+</header>
+<!-- Mobile footer REMOVED -->
+
+<main class="max-w-6xl mx-auto px-4 pt-6 pb-4">
+
+  <h2 class="section-title">Profile</h2>
+  <div class="glass rounded-2xl p-4">
+    <div class="flex items-center gap-4">
+      <img id="avatar" class="h-16 w-16 rounded-full object-cover" src="assets/profile-placeholder.png" alt="profile"/>
+      <div class="flex-1">
+        <div id="userName" class="text-xl font-bold"></div>
+        <div id="userEmail" class="font-semibold"></div>
+        <input type="file" id="avatarInput" class="mt-2"/>
+      </div>
+    </div>
+    <div class="mt-6 grid md:grid-cols-4 gap-3 text-sm">
+      <button class="tab-btn" data-tab="info">Personal Info</button>
+      <button class="tab-btn" data-tab="orders">Orders</button>
+      <button class="tab-btn" data-tab="wishlist">Wishlist</button>
+      <button class="tab-btn" data-tab="settings">Settings</button>
+    </div>
+    <div id="tabContent" class="mt-4"></div>
+  </div>
+
+</main>
+<script>
+  feather.replace();
+</script>
+<script src="profile.js"></script>
+</body>
+</html>

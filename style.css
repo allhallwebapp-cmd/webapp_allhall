@@ -1,0 +1,166 @@
+:root{
+  --bg:#0B0B0C;
+  --glass: rgba(255,255,255,.08);
+  --gold:#D4AF37;
+  --glow: rgba(212,175,55,0.6);
+}
+*{font-family: system-ui,-apple-system,Segoe UI,Arial,Helvetica,sans-serif}
+body{background:var(--bg) url('wall.png') center/cover fixed no-repeat;}
+.glass{background:var(--glass); border:1px solid rgba(212,175,55,.25); box-shadow: 0 0 0 1px rgba(0,0,0,.2) inset; backdrop-filter: blur(10px);}
+.section-title{font-weight:700; font-size:1.125rem; color:var(--gold); margin-bottom:0.75rem;}
+.navlink{color:var(--gold); opacity:.85}
+.navlink:hover{opacity:1}
+.btn-glow{background: linear-gradient(135deg, rgba(212,175,55,.15), rgba(212,175,55,.05)); border:1px solid rgba(212,175,55,.25); box-shadow:0 0 18px -6px var(--glow);}
+.btn-glow:hover{transform: translateY(-1px) scale(1.01); box-shadow:0 0 22px -4px var(--glow);}
+.card{transition:.25s transform, .25s box-shadow, .25s filter; transform: translateY(0);}
+.card:hover{transform: translateY(-3px) scale(1.01); box-shadow:0 0 24px -8px var(--glow);}
+.input{background:var(--glass); border:1px solid rgba(212,175,55,.25); border-radius:12px; padding:.6rem .8rem; width:100%}
+.tab-btn{background:var(--glass); border:1px solid rgba(212,175,55,.25); border-radius:12px; padding:.5rem .8rem; cursor:pointer}
+.tab-btn.active{box-shadow:0 0 12px -6px var(--glow);}
+.badge{display:inline-block; font-size:.75rem; padding:.1rem .5rem; border-radius:999px; border:1px solid rgba(212,175,55,.25); background:rgba(212,175,55,.1); color:var(--gold);}
+.hide{display:none}
+.line{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.4),transparent);}
+
+/* style.css - add this at the end */
+.neon-red-badge {
+    background-color: rgba(255, 0, 0, 0.7); /* Translucent red background */
+    color: #fff; /* White text for contrast */
+    border: 1px solid #ff0000; /* Solid red border */
+    box-shadow: 0 0 5px #ff0000, /* inner glow */
+                0 0 10px #ff0000, /* medium glow */
+                0 0 15px #ff0000, /* outer glow */
+                0 0 20px #ff0000; /* wider glow */
+}
+
+/* style.css */
+/* Hide the scrollbar in modern browsers */
+.banner-slider-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+/* Hide the scrollbar for WebKit browsers (Chrome, Safari) */
+.banner-slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* New CSS for the navigation dots */
+.dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: var(--gold);
+}
+
+/* style.css - Add these new classes at the end */
+.banner-slider-container {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 0.5rem; /* Add some padding for the scrollbar */
+    /* Hide the scrollbar in modern browsers */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Hide the scrollbar for WebKit browsers (Chrome, Safari) */
+.banner-slider-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* New CSS for the navigation dots */
+.dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: var(--gold);
+}
+
+.banner-slide {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+}
+
+.home-category-icon {
+    filter: invert(1) brightness(2);
+}
+
+.countdown-bar {
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.15); /* A default light background */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212,175,55,.25);
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Chat Message Styling */
+.chat-messages-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message-user {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(60, 60, 60, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    align-self: flex-start;
+    border-radius: 1rem 1rem 1rem 0;
+}
+
+.chat-message-admin {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(255, 192, 203, 0.4));
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    backdrop-filter: blur(5px);
+    align-self: flex-end;
+    border-radius: 1rem 1rem 0 1rem;
+}
+
+.unread-badge {
+    background-color: red;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+}
+
+/* New class for the glowing effect on category icons */
+.icon-glow {
+    filter: drop-shadow(0 0 5px var(--gold)) drop-shadow(0 0 10px var(--gold));
+}
+
+/* New CSS to apply the staggered layout only on mobile screens */
+@media (max-width: 767px) {
+    .product-card-staggered {
+        margin-top: -2rem; /* Adjust this value to control how much the card is shifted up */
+    }
+}
+.btn-white-glow{background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05)); border:1px solid rgba(255,255,255,.25); box-shadow:0 0 18px -6px rgba(255,255,255,0.6);}
+.btn-white-glow:hover{transform: translateY(-1px) scale(1.01); box-shadow:0 0 22px -4px rgba(255,255,255,0.8);}

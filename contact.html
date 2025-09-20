@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Admin</title>
+    <link rel="icon" href="logo.png"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+    <script defer src="firebase.js"></script>
+    <script defer src="main.js"></script>
+</head>
+<body class="text-white">
+<header class="sticky top-0 z-40 bg-black/70 backdrop-blur border-b border-yellow-500/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <img src="logo.png" class="h-10 w-auto" alt="logo"/>
+    <a href="index.html" class="font-bold text-yellow-400 tracking-wide">All Hall Shop</a>
+    <div class="flex-1"></div>
+    <div class="hidden md:block w-full max-w-md relative">
+      <input id="search" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+    <nav class="hidden md:flex items-center gap-4">
+      <a class="navlink" href="index.html" title="Home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </a>
+      <a class="navlink" href="categories.html" title="Categories">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4zm10 0a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4zM10 14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4zm10 0a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h4z"/></svg>
+      </a>
+      <a class="navlink relative" href="cart.html" title="Cart">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2s2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03L22 4.96l-1.41-1.41L15.54 13H8.53L4.25 2H1v2h2l3.6 7.59-1.35 2.44C4.24 14.9 5.09 16 6.25 16h14.5c.55 0 1 .45 1 1s-.45 1-1 1H6.25c-.83 0-1.5-.67-1.5-1.5c0-.82.67-1.5 1.5-1.5H19V13z"/></svg>
+        <span id="navCartCount" class="absolute top-0 right-0 ml-1 text-xs px-2 py-0.5 rounded-full bg-red-500"></span>
+      </a>
+      <a class="navlink relative" href="notifications.html" id="notifContainer" title="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.93 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+        <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 opacity-0" id="notifDot"></span>
+      </a>
+      <a class="navlink" href="profile.html" title="Profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 3c1.93 0 3.5 1.57 3.5 3.5S13.93 12 12 12s-3.5-1.57-3.5-3.5S10.07 5 12 5zm0 14.2c-2.67 0-5.33-1.34-5.33-4.01v-1.22c.59-.72 1.34-1.22 2.19-1.46c.72.19 1.48.33 2.24.33c.76 0 1.52-.14 2.24-.33c.85.24 1.6.74 2.19 1.46v1.22c0 2.67-2.67 4.01-5.33 4.01z"/></svg>
+      </a>
+    </nav>
+    <a href="cart.html" class="md:hidden btn-glow px-3 py-2 rounded-xl">Cart</a>
+  </div>
+  <div class="md:hidden px-4 pb-3">
+    <div class="relative">
+      <input id="search-m" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 pb-28">
+    <div class="my-6 text-center">
+        <h2 class="text-3xl font-bold">Contact Admin</h2>
+        <p class="opacity-80">We're here to help! Chat with our support team.</p>
+    </div>
+
+    <div class="glass rounded-2xl p-4">
+        <div class="flex items-center gap-4 mb-4 pb-4 border-b border-white/10">
+            <img id="admin-avatar" src="https://via.placeholder.com/60" class="h-12 w-12 rounded-full object-cover"/>
+            <div>
+                <div class="font-semibold" id="admin-nickname">Admin Support</div>
+                <div class="text-sm opacity-60">Online</div>
+            </div>
+        </div>
+
+        <div id="chat-messages" class="h-96 overflow-y-auto space-y-4 p-2">
+            </div>
+
+        <div class="flex items-end gap-2 pt-4 border-t border-white/10">
+            <label for="image-upload" class="cursor-pointer text-yellow-300 opacity-80 hover:opacity-100 p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 2h16v14H4zm1.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm1.75-6.5c.38 0 .75-.1.97-.24l1.3-1.3c.6-.6.6-1.5 0-2.1L12.5 5.5c-1.3-1.3-3.4-1.3-4.7 0L4.5 9.5c-1.3 1.3-1.3 3.4 0 4.7l1.3 1.3c.22.14.59.24.97.24z"/></svg>
+            </label>
+            <input type="file" id="image-upload" class="hidden" accept="image/*"/>
+
+            <button id="order-button" class="text-yellow-300 opacity-80 hover:opacity-100 p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M13 18.06V21c0 .55-.45 1-1 1s-1-.45-1-1v-2.94c-2.45-.6-4.46-2.61-5.06-5.06H3c-.55 0-1-.45-1-1s.45-1 1-1h2.94c.6-2.45 2.61-4.46 5.06-5.06V3c0-.55.45-1 1-1s1 .45 1 1v2.94c2.45.6 4.46 2.61 5.06 5.06H21c.55 0 1 .45 1 1s-.45 1-1 1h-2.94c-.6 2.45-2.61 4.46-5.06 5.06z"/></svg>
+            </button>
+            
+            <textarea id="message-input" class="input flex-1 resize-none h-10 py-2" placeholder="Type a message..." rows="1"></textarea>
+            
+            <button id="send-button" class="btn-glow px-4 py-2 rounded-xl">Send</button>
+        </div>
+    </div>
+    
+    <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm hidden">
+        <div class="glass p-6 rounded-2xl w-full max-w-md space-y-4">
+            <h3 class="text-xl font-bold">Select an order</h3>
+            <div id="orders-list" class="max-h-60 overflow-y-auto space-y-2">
+                <p class="opacity-70 text-center">Loading orders...</p>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button class="glass px-4 py-2 rounded-xl" onclick="document.getElementById('order-modal').classList.add('hidden')">Cancel</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script defer src="contact.js"></script>
+</body>
+</html>

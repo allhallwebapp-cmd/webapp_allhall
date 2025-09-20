@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>All Hall Shop</title>
+<link rel="icon" href="logo.png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="main.js"></script>
+</head>
+<body class="text-white">
+<header class="sticky top-0 z-40 bg-black/70 backdrop-blur border-b border-yellow-500/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <img src="logo.png" class="h-10 w-auto" alt="logo"/>
+    <a href="index.html" class="font-bold text-yellow-400 tracking-wide">All Hall Shop</a>
+    <div class="flex-1"></div>
+    <div class="hidden md:block w-full max-w-md relative">
+      <input id="search" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+    <nav class="hidden md:flex items-center gap-4">
+      <a class="navlink" href="index.html" title="Home">
+        <i data-feather="home" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink" href="categories.html" title="Categories">
+        <i data-feather="grid" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink relative" href="cart.html" title="Cart">
+        <i data-feather="shopping-cart" class="w-6 h-6"></i>
+        <span id="navCartCount" class="badge"></span>
+      </a>
+      <a class="navlink relative" href="notifications.html" id="notifContainer" title="Notifications">
+        <i data-feather="bell" class="w-6 h-6"></i>
+        <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 opacity-0" id="notifDot"></span>
+      </a>
+      <a class="navlink" href="profile.html" title="Profile">
+        <i data-feather="user" class="w-6 h-6"></i>
+      </a>
+    </nav>
+    <a href="cart.html" class="md:hidden btn-glow px-3 py-2 rounded-xl">Cart</a>
+  </div>
+  <div class="md:hidden px-4 pb-3">
+    <div class="relative">
+      <input id="search-m" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+  </div>
+</header>
+<!-- Mobile footer REMOVED -->
+
+<main class="max-w-6xl mx-auto px-4 pt-6 pb-4">
+  <h2 class="section-title">Checkout</h2>
+  
+  <section id="orderDetailsSection" class="glass p-4 rounded-2xl">
+    <h3 class="font-semibold mb-3 text-yellow-300">Order Details</h3>
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="opacity-80">Items: <span id="summaryCount">0</span></div>
+        <div class="opacity-80">Delivery: <span id="summaryDelivery">0 LKR</span></div>
+      </div>
+      <div class="text-right">
+        <div class="opacity-80">Subtotal: <span id="summarySubtotal">0 LKR</span></div>
+        <div class="text-lg font-semibold text-yellow-300">Total: <span id="summaryTotal">0 LKR</span></div>
+      </div>
+    </div>
+  </section>
+
+  <form id="checkoutForm" class="space-y-6">
+
+    <section id="personalInfoSection" class="glass p-4 rounded-2xl">
+      <h3 class="font-semibold mb-3 text-yellow-300">Personal Info</h3>
+      <div class="grid md:grid-cols-2 gap-3">
+        <input class="input" id="firstName" placeholder="First name" required>
+        <input class="input" id="lastName" placeholder="Last name" required>
+        <input class="input" id="email" placeholder="Email" required type="email">
+        <input class="input" id="phone" placeholder="Phone">
+        <input class="input" id="phone2" placeholder="Phone (optional)">
+        <input class="input" id="age" placeholder="Age" type="number" min="0">
+        <select class="input" id="gender">
+          <option value="">Gender (optional)</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="addressSection" class="glass p-4 rounded-2xl">
+      <h3 class="font-semibold mb-3 text-yellow-300">Address</h3>
+      <textarea class="input" id="address" placeholder="Delivery address" required></textarea>
+    </section>
+
+    <section id="paymentSection" class="glass p-4 rounded-2xl space-y-3">
+      <h3 class="font-semibold text-yellow-300">Payment</h3>
+      <div class="flex flex-col md:flex-row gap-3">
+        <button type="button" class="btn-glow px-4 py-2 rounded-xl flex-1" data-payment="codBtn" id="codBtn">Cash on Delivery</button>
+        <button type="button" class="btn-glow px-4 py-2 rounded-xl flex-1" data-payment="bankBtn" id="bankBtn">Bank Transfer</button>
+      </div>
+    </section>
+    
+    <button type="submit" id="mainSubmitBtn" class="btn-glow w-full px-4 py-2 rounded-xl">Place Order</button>
+  </form>
+
+  <section id="bankTransferSection" class="space-y-4 mt-6 hidden">
+    <div class="glass p-4 rounded-2xl space-y-2">
+      <h3 class="font-semibold text-yellow-300">Bank Transfer Details</h3>
+      <div class="text-sm opacity-80">Please make your bank transfer to the following account.</div>
+
+      <div class="glass p-4 rounded-xl space-y-2">
+        <h4 class="font-semibold text-lg">Bank Details</h4>
+        <div class="flex justify-between">
+          <span class="opacity-80">Bank:</span>
+          <span class="font-semibold" id="bankName">Loading...</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="opacity-80">Account No:</span>
+          <span class="font-semibold" id="accountNo">Loading...</span>
+          <button type="button" id="copyAccountBtn" class="glass px-2 py-1 rounded-xl text-xs">Copy</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="glass p-4 rounded-2xl space-y-3">
+      <h4 class="font-semibold text-yellow-300">Upload Receipt</h4>
+      <p class="text-sm opacity-80">Your order ID is: <span id="orderId" class="font-semibold text-yellow-300"></span></p>
+      <div>
+        <label class="opacity-80 block mb-1">Upload Receipt Image</label>
+        <input type="file" id="receiptFile" class="input w-full" accept="image/*">
+      </div>
+      <button type="button" id="submitReceiptBtn" class="btn-glow w-full px-4 py-2 rounded-xl">Submit Receipt</button>
+      <button type="button" id="transferLaterBtn" class="glass w-full px-4 py-2 rounded-xl">Transfer Later</button>
+    </div>
+  </section>
+
+</main>
+<script>
+    feather.replace();
+</script>
+<script src="checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>All Hall Shop</title>
+<link rel="icon" href="logo.png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css" />
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="main.js"></script>
+
+</head>
+<body class="text-white">
+<header class="sticky top-0 z-40 bg-black/70 backdrop-blur border-b border-yellow-500/20">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+    <img src="logo.png" class="h-10 w-auto" alt="logo"/>
+    <a href="index.html" class="font-bold text-yellow-400 tracking-wide">All Hall Shop</a>
+    <div class="flex-1"></div>
+    <div class="hidden md:block w-full max-w-md relative">
+      <input id="search" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl" onkeydown="handleSearch(event)">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+    <nav class="hidden md:flex items-center gap-4">
+      <a class="navlink" href="index.html" title="Home">
+        <i data-feather="home" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink" href="categories.html" title="Categories">
+        <i data-feather="grid" class="w-6 h-6"></i>
+      </a>
+      <a class="navlink relative" href="cart.html" title="Cart">
+        <i data-feather="shopping-cart" class="w-6 h-6"></i>
+        <span id="navCartCount" class="absolute top-0 right-0 ml-1 text-xs px-2 py-0.5 rounded-full bg-red-500"></span>
+      </a>
+      <a class="navlink relative" href="notifications.html" id="notifContainer" title="Notifications">
+        <i data-feather="bell" class="w-6 h-6"></i>
+        <span class="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 opacity-0" id="notifDot"></span>
+      </a>
+      <a class="navlink" href="profile.html" title="Profile">
+        <i data-feather="user" class="w-6 h-6"></i>
+      </a>
+    </nav>
+  </div>
+  <div class="md:hidden px-4 pb-3">
+    <div class="relative">
+      <input id="search-m" type="search" placeholder="Search title/brand/category…" class="glass w-full pl-10 pr-3 py-2 rounded-2xl" onkeydown="handleSearch(event)">
+      <svg class="absolute left-3 top-2.5 h-5 w-5 text-yellow-400/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+  </div>
+</header>
+
+<div id="countdown-bar-container" class="sticky top-16 z-30 w-full glass px-4 py-2 hidden">
+    <div class="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto gap-2 text-center md:text-left">
+        <div class="text-sm md:text-base font-medium" id="countdown-text"></div>
+        <div id="countdown-timer" class="flex items-center gap-2">
+            <span class="timer-box flex flex-col items-center">
+                <span id="days" class="text-lg md:text-2xl font-bold">00</span>
+                <span class="text-xs">Days</span>
+            </span>
+            <span class="text-lg md:text-2xl font-bold">:</span>
+            <span class="timer-box flex flex-col items-center">
+                <span id="hours" class="text-lg md:text-2xl font-bold">00</span>
+                <span class="text-xs">Hrs</span>
+            </span>
+            <span class="text-lg md:text-2xl font-bold">:</span>
+            <span class="timer-box flex flex-col items-center">
+                <span id="minutes" class="text-lg md:text-2xl font-bold">00</span>
+                <span class="text-xs">Mins</span>
+            </span>
+            <span class="text-lg md:text-2xl font-bold">:</span>
+            <span class="timer-box flex flex-col items-center">
+                <span id="seconds" class="text-lg md:text-2xl font-bold">00</span>
+                <span class="text-xs">Secs</span>
+            </span>
+        </div>
+        <a href="" id="countdown-button" class="btn-glow px-4 py-2 rounded-xl mt-2 md:mt-0"></a>
+    </div>
+</div>
+
+<section id="bannerSection" class="max-w-6xl mx-auto px-4 pt-6 mb-6">
+    <div class="grid md:grid-cols-1 gap-4" id="bannerSlider"></div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4 pb-4">
+    <section class="mb-6" id="flashSaleSection"></section>
+
+    <section class="mb-6">
+        <div id="tabCategoriesContent" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3"></div>
+    </section>
+
+    <section class="mb-6">
+        <h2 class="section-title flex items-center gap-2">🔥 Hot Items</h2>
+        <div id="topRatedGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+    </section>
+    <section class="mb-6">
+        <h2 class="section-title flex items-center gap-2">⭐ Recently Added</h2>
+        <div id="recentlyAddedGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+    </section>
+    <section class="mb-6">
+        <h2 class="section-title flex items-center gap-2">⚡ Deals you can't miss</h2>
+        <div class="grid md:grid-cols-1 gap-4" id="bannerSlider2"></div>
+    </section>
+    <section>
+        <h2 class="section-title">💎 Price High to Low</h2>
+        <div id="allProductsGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+        <div id="loader" class="text-center py-6 hidden">Loading…</div>
+    </section>
+</main>
+<script>
+    // Feather Icons
+    feather.replace();
+
+    // Search Redirect Logic
+    function handleSearch(event) {
+        if (event.key === 'Enter') {
+            const searchTerm = event.target.value;
+            if (searchTerm) {
+                window.location.href = `categories.html?search=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+    }
+</script>
+<script src="home.js"></script>
+</body>
+</html>
