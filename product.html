@@ -14,7 +14,63 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
 <script src="firebase.js"></script>
 <script src="main.js"></script>
-
+<style>
+  /* Custom Modal Styles for the frosted glass popup */
+  .modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    inset: 0; /* Covers the entire screen */
+    background-color: rgba(10, 10, 10, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(8px); /* The frosted glass effect */
+    -webkit-backdrop-filter: blur(8px); /* For Safari compatibility */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-overlay.visible {
+    display: flex;
+  }
+  .modal-content {
+    /* UPDATED: Using theme variables for a consistent look */
+    background-color: rgba(11, 11, 12, 0.7); /* Using the theme's bg color with transparency */
+    backdrop-filter: blur(10px); /* Blur from the theme's .glass style */
+    -webkit-backdrop-filter: blur(10px);
+    color: #ffffff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.4); /* A border that fits the theme */
+    box-shadow: 0 0 22px -4px var(--glow); /* Using the theme's glow variable for consistency */
+    text-align: center;
+    max-width: 320px;
+  }
+  .modal-content p {
+    margin: 0 0 20px 0;
+    font-size: 1.1em;
+  }
+  .modal-content button {
+    /* UPDATED: Button styles to match theme */
+    background-color: var(--gold); /* Gold button from theme */
+    color: var(--bg); /* Dark text from theme */
+    border: none;
+    border-radius: 8px;
+    padding: 10px 35px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 18px -6px var(--glow); /* Adding glow to the button */
+  }
+  .modal-content button:hover {
+    background-color: #f0c54c; /* Lighter gold on hover */
+    transform: scale(1.05);
+    box-shadow: 0 0 22px -4px var(--glow); /* Stronger glow on hover */
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
 </head>
 <body class="text-white">
 <header class="sticky top-0 z-40 bg-black/70 backdrop-blur border-b border-yellow-500/20">
@@ -54,11 +110,11 @@
     </div>
   </div>
 </header>
-<!-- Mobile footer REMOVED -->
 
 <main class="max-w-6xl mx-auto px-4 pt-6 pb-4">
 
-  <div id="productDetail" class="grid md:grid-cols-2 gap-6"></div>
+  <div id="productDetail" class="grid md:grid-cols-2 gap-6">
+    </div>
   
   <section class="mt-10">
     <h3 class="section-title">Customer Reviews</h3>
@@ -68,16 +124,49 @@
     <div id="reviewFormContainer" class="glass p-4 rounded-2xl mb-6">
       </div>
 
-    <div id="reviewsList" class="space-y-4">
+    <div id="reviewsList" class="mt-6 space-y-4">
       </div>
   </section>
 
   <section class="mt-10">
     <h3 class="section-title">You may also like</h3>
-    <div id="relatedGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+    <div id="relatedGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      </div>
   </section>
 
 </main>
+
+<div id="customAlert" class="modal-overlay">
+  <div class="modal-content">
+    <p id="modalMessage">Message goes here</p>
+    <button id="modalOkBtn">OK</button>
+  </div>
+</div>
+
+<div id="shareModal" class="modal-overlay">
+  <div class="modal-content space-y-4">
+    <h4 class="font-bold text-lg">Share this Product</h4>
+    <input id="shareLinkInput" type="text" readonly class="input text-center text-sm" />
+    <button id="copyLinkBtn" class="w-full">Copy Link</button>
+  </div>
+</div>
+
+<div id="colorModal" class="modal-overlay">
+  <div class="modal-content variant-modal-content">
+    <h4 class="font-bold text-lg mb-4">Select a Color</h4>
+    <div id="colorGrid" class="grid grid-cols-5 gap-4">
+      </div>
+  </div>
+</div>
+
+<div id="sizeModal" class="modal-overlay">
+  <div class="modal-content variant-modal-content">
+    <h4 class="font-bold text-lg mb-4">Select a Size</h4>
+    <div id="sizeGrid" class="grid grid-cols-4 gap-4">
+      </div>
+  </div>
+</div>
+
 <script>
   feather.replace();
 </script>
