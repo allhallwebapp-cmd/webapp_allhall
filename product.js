@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div>${p.discount?`<span class='opacity-70 line-through mr-2'>${fmt(p.price||0)}</span>`:''}<span class="text-yellow-300 text-lg">${fmt(finalPrice())}</span></div>
           <div class="opacity-80">${p.short||''}</div>
           
-          <!-- NEW: Variant Selection UI -->
           <div class="space-y-3">
             <div class="flex items-center gap-4">
               <button id="colorSelectBtn" class="glass px-4 py-2 rounded-xl flex-1 text-left">Color</button>
@@ -268,14 +267,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.getElementById('shareBtn').onclick = showShareModal;
         
+        // --- WISHLIST BUTTON LOGIC (MODIFIED) ---
         document.getElementById('wishlistBtn').onclick = async () => {
           if (isInWishlist) {
             await removeFromWishlist(p.id);
+            showCustomAlert('Removed from Wishlist'); 
           } else {
             await addToWishlist(p.id);
+            showCustomAlert('Added to Wishlist'); 
           }
           isInWishlist = await checkWishlistStatus(id);
-          renderProductDetails();
+          renderProductDetails(); // Re-renders the section to update the button text
         };
     }
 
@@ -401,4 +403,3 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     loadReviews();
 });
-

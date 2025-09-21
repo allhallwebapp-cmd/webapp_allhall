@@ -124,12 +124,10 @@ async function addToWishlist(productId) {
         return;
     }
     await db.ref('wishlists/' + user.uid + '/' + productId).set(true);
-    alert('Product added to wishlist!');
 }
 
 async function removeFromWishlist(productId) {
     const user = auth.currentUser;
     if (!user) return;
     await db.ref('wishlists/' + user.uid + '/' + productId).remove();
-    alert('Product removed from wishlist.');
 }
