@@ -81,27 +81,6 @@ body{background:var(--bg) url('wall.png') center/cover fixed no-repeat;}
     display: none;
 }
 
-/* New CSS for the navigation dots */
-.dots-container {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    padding-top: 0.5rem;
-}
-
-.dot {
-    width: 0.75rem;
-    height: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.dot.active {
-    background-color: var(--gold);
-}
-
 .banner-slide {
     flex-shrink: 0;
     scroll-snap-align: center;
@@ -164,3 +143,71 @@ body{background:var(--bg) url('wall.png') center/cover fixed no-repeat;}
 }
 .btn-white-glow{background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.05)); border:1px solid rgba(255,255,255,.25); box-shadow:0 0 18px -6px rgba(255,255,255,0.6);}
 .btn-white-glow:hover{transform: translateY(-1px) scale(1.01); box-shadow:0 0 22px -4px rgba(255,255,255,0.8);}
+
+/* Styles for the Share Modal elements */
+#shareLinkInput {
+  background-color: rgba(0,0,0,0.3); /* Darker background for readonly input */
+  color: #ffffff;
+  border-color: rgba(212,175,55,.4);
+}
+
+#copyLinkBtn {
+  background-color: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 25px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 18px -6px var(--glow);
+}
+
+#copyLinkBtn:hover {
+  background-color: #f0c54c;
+  transform: scale(1.02);
+  box-shadow: 0 0 22px -4px var(--glow);
+}
+
+/* Add these new styles to the end of your style.css file */
+
+/* NEW: Styles for Color and Size Selection Modals */
+.variant-modal-content {
+  max-width: 400px; /* A bit wider for the selection grid */
+}
+
+.color-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.color-circle:hover {
+  transform: scale(1.1);
+}
+
+.color-circle.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.size-btn {
+  padding: 1rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.size-btn.selected {
+  background-color: var(--gold);
+  color: var(--bg);
+  box-shadow: 0 0 12px -4px var(--glow);
+  transform: scale(1.05);
+}
+
